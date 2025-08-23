@@ -39,17 +39,17 @@
 
 // Floating Point and INtegral Promotion
 // 
-// Numeric conversion - conversion from a narrower (fewer bits) to a woder type (more bits)
-//		often for converting variables to teh type most efficient of a given architecture
+// Numeric promotion - conversion from a narrower (fewer bits) to a wider type (more bits)
+//		often for converting variables to the type most efficient of a given architecture
 //		all numeric conversions are value preserving conversions
 // 
 // Value preserving conversion - aka safe conversion is where every possoble source value can be converted'
-//		into an equal value of destionation type (think int to  double or int to long
+//		into an equal value of destination type (think int to  double or int to long)
 // 
 // bevause promotions are safe conversions, the compiler does not warn and uses them freely
 // 
 // whith automatic promotion from the compiler we are able togive a function with a paramater, inputs
-// with a variable type that can be promoted to the paramaters expected type ie give an int param a short
+// with a variable type that can be promoted to the paramaters expected type ie give an int param a short value
 // 
 // Numeric Promotion comes in two catagorise: integral promotions and floating point promotions
 // 
@@ -68,7 +68,7 @@
 // 
 // for uncommon types of integral promotion https://en.cppreference.com/w/cpp/language/implicit_conversion#Integral_promotion
 // 
-// on architecture with 2 byte ints some undigned integral types will convert to unsinged int rather than int
+// on architecture with 2 byte ints some unsigned integral types will convert to unsinged int rather than int
 // 
 // not all wideining converstions are numeric promotions
 // char to short or int to long are not considered numeric promotions in c++, they are considered numeric conversions
@@ -80,7 +80,7 @@
 
 // Numeric Conversions
 // 
-// Numeric conversions - these conve additional conversions between fundamental types beyond promotion
+// Numeric conversions - these conver additional conversions between fundamental types beyond promotion
 // 
 // 5 types of numeric converisons:
 //	1)	converting any integral type to another integral type (excluding those that count as promotions)
@@ -89,12 +89,12 @@
 //	4)	converting a integral type to a floating point type
 //	5)	converting a floating or inegral type to a bool
 // 
-// NOTE brace intitialization dissalows anyn non lossless conversions so some of these conversions cannot be done
+// NOTE brace intitialization dissalows any non lossless conversions so some of these conversions cannot be done
 // with brace initialization and would require copy initialization
 // 
 // many numeric conversions are "unsafe" meaning they are at riask of loosing data in the conversion
 // 
-// numerica conversions fall into three catagories of saftey:
+// numerical conversions fall into three catagories of saftey:
 //	1)	Value preserving conversion - safe numeric conversions where the  destination type can exactally represent all
 //			possible values of source type (ussually not given any warnings) conversion is allways reversable (lossless)
 // 
