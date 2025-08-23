@@ -98,10 +98,10 @@
 //	1)	Value preserving conversion - safe numeric conversions where the  destination type can exactally represent all
 //			possible values of source type (ussually not given any warnings) conversion is allways reversable (lossless)
 // 
-//	2)	Reinterpretive Conversion - unsafe numeric conversion where teh value may be diferent but no data is lost
+//	2)	Reinterpretive Conversion - unsafe numeric conversion where the value may be diferent but no data is lost
 //			think signed to unsigned conversion, data isnt lost but source and destination do not share all same values
 //			warnings are disables by default for this bc generally there isnt a value loss
-//			even with value loss data is not lost as value will revert upon reverseing teh process (reversable)
+//			even with value loss data is not lost as value will revert upon reverseing the process (reversable)
 // 
 //	3) Lossy Conversions - conversion where data might get lost
 //			double to int is a lossy conversion, the decimal is lost
@@ -244,7 +244,7 @@
 // const Cast, reinterpret cast- usually avoide bc dangerous if misused
 // 
 // C-Style cast-
-//		in standard c programing csats are done with operator()
+//		in standard c programing casts are done with operator()
 //		(desired Type)Value
 //		still can be found in code converted from C
 //		cpp includes a more function stype cast of c style syntax DesiredType(value)
@@ -267,6 +267,25 @@
 // 
 // if going to have a narrowing conversion intetntionally, don't so so implicitly, explicitly use static cast to
 // make it clear to self and other devs, and prevent warnings
+// 
+// Casting vs initializing a temp object
+// static_cast<int>(x) // returns a temp int object direct initialized with x
+// int {x} // returns a twmp int object direct list initialized with x
+// 
+// int (x) is a c style cast so we should generally avoid it, but
+// int {x} uses list init which dissalows narrowing conversions which can be an inpediment 
+// when using it intentionally for casts. 
+// 
+// Direct list init of a temporary ONLY allows Single wourd type names due to a wierd quirk of syntaxes
+// Meaning it cant be used for an unsigned int for exapmple unless i make  asingle word alias for 
+// unsigned int
+// using unit = unsigned int;
+// std::cout << uint {x};
+// 
+// All this to say using static cast, tho often more verbose, is more consistant to use and easier to search
+// for with ctrl+f
+// 
+//
 
 
 
@@ -289,7 +308,7 @@
 // Best Practice: name aliases with a capital letter and no suffix unless there is a particular reason to do otherwise
 // 
 // type asialses are not "type safe" meaning the editor will not throw errors for conversions between teo aliases 
-//	that are dame type but are supposed to be distinct (think distance and speed both used as aliases for long, 
+//	that are same type but are supposed to be distinct (think distance and speed both used as aliases for long, 
 //	they get the right type for varibles but setting a distance (long) by a speed(long) is probabky not what we intend to do
 //	but editor will not warn about it
 // 
