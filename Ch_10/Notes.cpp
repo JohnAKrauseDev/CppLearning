@@ -348,7 +348,7 @@
 //	using int32_t = int;
 //	#endif
 // 
-// thats right, fixed width integers ive used before are actually just type aliases
+// thats right, fixed width integers ive used before are actually just type aliases, lol
 // 
 // another (and often most used) use is for making short alias for really long type namse such as 
 //	std::vector<std::pair<std::string, int>> which from what i can tell makes a map like variable of string and integer
@@ -371,13 +371,71 @@
 // 
 // Best Practice: use type aliases only if there is a clear benifit to readibility or manntinance
 // 
+
+
+
+
+// Type Deduction for objects using the auto keyword 
+// 
+// in teh iitialiation: double var{5.0}
+// var is marked as a doible by the keyword but also by the literal 5.0 being a double
+// 
+// Type deduction (type interference) is a feature allowing compiler to deduce the type of an obj from its
+// initializer, it can be invoked with the auto keyword
+// auto d {5.0}; //5.0 is a double literal so d is deduced to be a literal
+// auto i {1+2}; .// 1+2 evals as int so i deduced to be int
+// auto x {i}; // i evaled to be int previously so x likewaise is an int
+// 
+// WARNING; in c++14 and earlier standars auto d {5.0} can deduce to "std::itnitializer_list<double>" not double
+// this has been fixed dince then
+// 
+// auto keyword can be used for function calls (non void functions that is)
+// 
+// if there is nothing to deduce from, type deduction will not work
+// 
+// Type deduction USE: good for when types are long and likely to have typos when retyping so
+// it saves time and errors
+// 
+// using auto keyword drops the const from variable types
+// 
+// const int var {1};
+// auto bar {var}; //bar does not get teh const as auto evaluated only int, not const int
+// 
+// to have a const from a deduction you have to supply it yourself
+// 
+// const int var {1};
+// const auto bar {var};// bar now is a const int
 // 
 // 
+// NOTE TO SELF, lol now that i see the use of auto literal suffixes seem more useful to me. 
+// guess ill wanna use them especially for strings now i think, unless i just use aliasis
 // 
+// String literals
+// in c++ string litterals have wierd types (for historic reasons)
 // 
+// auto s {"Hello world"}; // s has type const char not std::string
 // 
+// to deduce a std::string or string view you would need to  use a litteral suffix such as s or sv
 // 
+// const expr is not part of the type system so it is dropped by deduciton. as such it needs to be reaplied
+// just like const does
 // 
+// BENIFITS AND DRAWBACKS
+// type deductiion has additional benifits such as (it complains if u forget to init a variable as it wont
+// have enough info for deduction
+// Potential for great readinbility
+// ensures no unintentional expensive conversions such as accidentally turn string view from funct into string
+// 
+// but it also has downsides;
+// it obfuscates the objects type information and hides mistaken type mixups such as accidentally providing a
+// float type var an int initializer when you wanted the var to be a float type
+// This can get bad with signed or unsigned types and also it can cuase the wrong form of division to be used etc
+// 
+// BEST PRACTICE
+// use type deduction when the type of the object doesnt matter
+// Favor explicit types when u requier a type that differs from the initializer type or when object is used in
+// in contexts where teh type being obviousis useful
+//
 // 
 // 
 // 
