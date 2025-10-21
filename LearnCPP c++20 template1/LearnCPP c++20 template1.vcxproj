@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{339c06e3-173e-48fa-8184-69e0f4a520cd}</ProjectGuid>
-    <RootNamespace>Ch_10</RootNamespace>
+    <ProjectGuid>{c4bda4f1-a4fb-474a-9bfe-0b96699653de}</ProjectGuid>
+    <RootNamespace>LearnCPP_c__20_template1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -135,9 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Notes.cpp" />
-    <ClCompile Include="Quiz.cpp" />
-    <ClCompile Include="Testing_01.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,24 +1,25 @@
 #include <iostream>
 #include <string>
+using namespace std; //for parity with the online test im doing
 
-int main()
-{
-
-	return 0;
-}
-
-
-
-
-
-
-
-// 10.7 quiz
-//
 //int main()
 //{
-//	using printerror = int;
-//	printerror printdata();
+//	int n = 4;
 //
+//	cout << " " << n << endl;
+//	cout << " n" << endl;
+//	cout << "\n" << endl;
+//	cout << " n * n = "; //CAREFUL!
+//	cout << n * n << endl;
+//	cout << 'n' << endl;
+//
+//
+//	return 0;
+//}
+
+//int main()
+//{
+//	using PrintError = int;
+//	PrintError printData();
 //	return 0;
 //}
