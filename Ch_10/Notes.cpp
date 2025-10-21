@@ -73,7 +73,7 @@
 // 
 // for uncommon types of integral promotion https://en.cppreference.com/w/cpp/language/implicit_conversion#Integral_promotion
 // 
-// on architecture with 2 byte ints some undigned integral types will convert to unsinged int rather than int
+// on architecture with 2 byte ints some unsigned integral types will convert to unsinged int rather than int
 // 
 // not all wideining converstions are numeric promotions
 // char to short or int to long are not considered numeric promotions in c++, they are considered numeric conversions
@@ -94,7 +94,7 @@
 //	4)	converting a integral type to a floating point type
 //	5)	converting a floating or inegral type to a bool
 // 
-// NOTE brace intitialization dissalows anyn non lossless conversions so some of these conversions cannot be done
+// NOTE brace intitialization dissalows any non lossless conversions so some of these conversions cannot be done
 // with brace initialization and would require copy initialization
 // 
 // many numeric conversions are "unsafe" meaning they are at risk of loosing data in the conversion
@@ -103,10 +103,10 @@
 //	1)	Value preserving conversion - safe numeric conversions where the  destination type can exactally represent all
 //			possible values of source type (ussually not given any warnings) conversion is allways reversable (lossless)
 // 
-//	2)	Reinterpretive Conversion - unsafe numeric conversion where teh value may be diferent but no data is lost
+//	2)	Reinterpretive Conversion - unsafe numeric conversion where the value may be diferent but no data is lost
 //			think signed to unsigned conversion, data isnt lost but source and destination do not share all same values
 //			warnings are disables by default for this bc generally there isnt a value loss
-//			even with value loss data is not lost as value will revert upon reverseing teh process (reversable)
+//			even with value loss data is not lost as value will revert upon reverseing the process (reversable)
 // 
 //	3) Lossy Conversions - conversion where data might get lost
 //			double to int is a lossy conversion, the decimal is lost
@@ -250,7 +250,7 @@
 // const Cast, reinterpret cast- usually avoide bc dangerous if misused
 // 
 // C-Style cast-
-//		in standard c programing csats are done with operator()
+//		in standard c programing casts are done with operator()
 //		(desired Type)Value
 //		still can be found in code converted from C
 //		cpp includes a more function stype cast of c style syntax DesiredType(value)
@@ -273,6 +273,25 @@
 // 
 // if going to have a narrowing conversion intetntionally, don't so so implicitly, explicitly use static cast to
 // make it clear to self and other devs, and prevent warnings
+// 
+// Casting vs initializing a temp object
+// static_cast<int>(x) // returns a temp int object direct initialized with x
+// int {x} // returns a twmp int object direct list initialized with x
+// 
+// int (x) is a c style cast so we should generally avoid it, but
+// int {x} uses list init which dissalows narrowing conversions which can be an inpediment 
+// when using it intentionally for casts. 
+// 
+// Direct list init of a temporary ONLY allows Single wourd type names due to a wierd quirk of syntaxes
+// Meaning it cant be used for an unsigned int for exapmple unless i make  asingle word alias for 
+// unsigned int
+// using unit = unsigned int;
+// std::cout << uint {x};
+// 
+// All this to say using static cast, tho often more verbose, is more consistant to use and easier to search
+// for with ctrl+f
+// 
+//
 
 
 
@@ -335,7 +354,7 @@
 //	using int32_t = int;
 //	#endif
 // 
-// thats right, fixed width integers ive used before are actually just type aliases
+// thats right, fixed width integers ive used before are actually just type aliases, lol
 // 
 // another (and often most used) use is for making short alias for really long type namse such as 
 //	std::vector<std::pair<std::string, int>> which from what i can tell makes a map like variable of string and integer
@@ -472,8 +491,46 @@
 // 
 // CHAPTER END
 // 
+// using auto keyword drops the const from variable types
+// 
+// const int var {1};
+// auto bar {var}; //bar does not get teh const as auto evaluated only int, not const int
+// 
+// to have a const from a deduction you have to supply it yourself
+// 
+// const int var {1};
+// const auto bar {var};// bar now is a const int
 // 
 // 
+// NOTE TO SELF, lol now that i see the use of auto literal suffixes seem more useful to me. 
+// guess ill wanna use them especially for strings now i think, unless i just use aliasis
+// 
+// String literals
+// in c++ string litterals have wierd types (for historic reasons)
+// 
+// auto s {"Hello world"}; // s has type const char not std::string
+// 
+// to deduce a std::string or string view you would need to  use a litteral suffix such as s or sv
+// 
+// const expr is not part of the type system so it is dropped by deduciton. as such it needs to be reaplied
+// just like const does
+// 
+// BENIFITS AND DRAWBACKS
+// type deductiion has additional benifits such as (it complains if u forget to init a variable as it wont
+// have enough info for deduction
+// Potential for great readinbility
+// ensures no unintentional expensive conversions such as accidentally turn string view from funct into string
+// 
+// but it also has downsides;
+// it obfuscates the objects type information and hides mistaken type mixups such as accidentally providing a
+// float type var an int initializer when you wanted the var to be a float type
+// This can get bad with signed or unsigned types and also it can cuase the wrong form of division to be used etc
+// 
+// BEST PRACTICE
+// use type deduction when the type of the object doesnt matter
+// Favor explicit types when u requier a type that differs from the initializer type or when object is used in
+// in contexts where teh type being obviousis useful
+//
 // 
 // 
 // 
