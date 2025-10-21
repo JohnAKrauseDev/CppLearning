@@ -191,7 +191,7 @@
 // syntax: 
 // void foo(int x, int y=10);
 // 
-// foo(7,11); //defult vaue for y overwritten with user-suppllied argument 11 
+// foo(7,11); //default vaue for y overwritten with user-suppllied argument 11 
 // 
 // foo(5); // x is 5 but due to no argument being given, y defaults to 10
 // 
@@ -199,13 +199,72 @@
 // so in the above, compiler re-wrote the second call as 
 // foo(5, 10);
 // 
+// default arguments have tons of uses such as adding a new parameter to a function without
+// breaking all previous calls
 // 
 // 
+// Multiple Default Arguments
+// multiple arguments can have default values in c++
+// however the left most values are checks for first and
+// as on c++23 there is no syntax for defaulting a value then being explicit for a value to its right
+// EG 
+// foo(int x=1, inty=2, int z=3);
+// foo(4); //valid, just uses default for x and y
+// foo(,,4) // invalid, there is no way to have x be default value while giving exp;licit value to y or z
+// 
+// as such here are 3 Major consequences:
+// 
+// 1) an explicitly called arguments must be the left most arguments
+// 
+// 2) if an argument is given a default value, all values to the right must also have default values
+// 
+// 3) if more than one argument has a default value, the leftmost should be the one most likely to be
+// given an explicit value by user
 // 
 // 
+// Default Arguments Cannot Be Redeclared and Must be Declared Before Use
+// 
+// error thrown if function call relying on defualt value used before default value listed
+// error thrown if default value is ever redefined (even as same value)
 // 
 // 
+// Best Practice: is to put default values in the forward declaration and not the definition, 
+// unless the unction has no forward declaration
 // 
+// (added benifit of making sure other files see the default value esp if its in a header file)
+// 
+// 
+// Default Arguments and Function Overloading
+// functions with default arguments are allowed to be overloaded
+// EG
+//#include <iostream>
+//#include <string_view>
+//
+//void print(std::string_view s)
+//{
+//    std::cout << s << '\n';
+//}
+//
+//void print(char c = ' ')
+//{
+//    std::cout << c << '\n';
+//}
+//
+//int main()
+//{
+//    print("Hello, world"); // resolves to print(std::string_view)
+//    print('a');            // resolves to print(char)
+//    print();               // resolves to print(char)
+//
+//    return 0;
+//}
+// Default values are NOT a part of a functions signature.
+// 
+// this ofcourse can lead to problems such as in teh case of
+// 
+// void print(int x);                  // signature print(int)
+// void print(int x, int y = 10);      // signature print(int, int)
+// void print(int x, double y = 20.5); // signature print(int, double)
 // 
 // 
 // 
