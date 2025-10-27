@@ -260,11 +260,203 @@
 //}
 // Default values are NOT a part of a functions signature.
 // 
-// this ofcourse can lead to problems such as in teh case of
+// this of course can lead to problems such as in the case of
 // 
 // void print(int x);                  // signature print(int)
 // void print(int x, int y = 10);      // signature print(int, int)
 // void print(int x, double y = 20.5); // signature print(int, double)
+// 
+//	
+// Default Arguments Dont Work For Functions Called Through Function Pointers
+// covers fully in Fuinction Pointers 20.1
+// Default arguments care not considered when using this method, thjis also provides a workaroound 
+// to call a function that would otherwise be ambiguous due to default arguments
+// 
+
+
+
+
+// Function Templates
+// 
+// function templates are meant to solve teh problem of havingt a function that is identical for
+// many inpout types that you dont want to create independant overloads for each possible type
+// such as a compare function that we want to use for all floating and integer types
+// 
+// 
+// Introduction to C++ templates
+// 
+// just like normal defenition, templates definition describes what a fuinction or class looks like
+// but, rather than needing each type to be specified, in a template you can use one or more placeholder
+// types. a placeholder type is one who is not yet known at definiton but will be provided later when
+// template is used.
+// once a template is defined the compiler generates as many overloaded functions or classes as needed,
+// each using different actuall types
+// 
+// [in essence templates is a short hand for multiple identical overloaded functions]
+// a template is used by compiler to create a family of relatede functions or classes 
+// 
+// the original function template that generates all the overloads is called the Primary Template
+// and fucntions generated from it are called Instantiated Functions
+// When we create a Primary Funcition Template we use Placeholder Types (aka Type Template Parameters)
+// (informally Template Types) for any parameter types, return types, or types used in the function body
+// that we want to be specified later by the template user
+// 
+// C++ supports 3 types of template parameters:
+// Type Template Parameters (Template Param represents a type)
+// Non-Type Template Parameters (Template Param represents constexpr value)
+// template Template Parameters (template Param representsa temlate
+// 
+// 
+// Converting function to template:
+// Original
+// int max(int x, int y)
+// {
+//	return (x<y) ? x:y;
+// };
+// 
+// Step 1
+// T max(T x, T y)
+// {
+//	return (x < y) ? y:x
+// };
+// 
+// though without defining T this will result in cpmpile error, and teh fiunction is not seen as a template
+// 
+// Step 2
+// template <typename T> //this is teh declaration for template Parameter
+// 
+// NOTE: a template parameter declaration is strictly limited to the function or class template that follows
+// so every template requires its own template parameter declaration
+// 
+// teh syntax for Template Paramater Defenition:
+// template <typename Name>
+// First template to tell compiler what we are doing, then inside angled brackets, typename (or class) before
+// teh name of teh template, can do this multiple times in one set ofr brackets i believe
+// 
+// either calss or typename keywords work in this context, though many use class because it was introduced
+// to the language earlier
+// 
+// 
+// Naming Tmeplate Parameters
+// much like single letter variables used for trivial situations, its conventional to use a single capital
+//  letter as the name for template parameters (Starting with T) atleast when they are used in trivial or
+// obviou ways such as the above max() function
+// 
+// When teh template Parameter has a non-opbvoius usage or specific requierments that must be met, there are
+// two common naming conventions:
+// Start with capital letter EG Allcator
+// Prefix with T then start with capital EG TAllocator
+// 
+// whether a template function compiles or not is dependant on if the template arguments mach the use in the
+// template defenition
+// 
+
+
+
+// Function Template Instantiation
+// 
+// as functio ntemplates are not actually functions, to use them we dont make a normal function call
+// 
+//what we do is similar but we use slightly different syntax
+// for example with our max functionabove:
+// max<int>(1,2);
+// in teh angled brackets we tell the template what type to use when generating a functoin from the template
+// 
+// the process of creating functions with specified typw from function templates is called
+// Function Template Instantiation, or just Instantiation for short
+// 
+// a functiuon instantiated from a function call is called an Implicit INstantialization
+// 
+// A function instantiated from a template is Techincally called a Specialization, but is commonly
+// refered to as a Function Instance. 
+// 
+// The template from which a specialization is produced is  caled a Primary Template, 
+// 
+// Specialization is normally used to rtefer to Explicit Specialization (function Template Specialization 26.3)
+// 
+// a function template is only instantiated the first time a function ca;; is made (per translation unit)
+// further calls just route through the existing function instance (Specialization)
+// 
+// 
+/*
+#include <iostream>
+
+template <typename T>
+T max(T x, T y) // function template for max(T, T)
+{
+    return (x < y) ? y : x;
+}
+
+int main()
+{
+    std::cout << max<int>(1, 2) << '\n';    // instantiates and calls function max<int>(int, int)
+    std::cout << max<int>(4, 3) << '\n';    // calls already instantiated function max<int>(int, int)
+    std::cout << max<double>(1, 2) << '\n'; // instantiates and calls function max<double>(double, double)
+
+    return 0;
+}
+*/
+// Pre instantiation^
+// Post instantiation?
+/*
+#include <iostream>
+
+// a declaration for our function template (we don't need the definition any more)
+template <typename T>
+T max(T x, T y);
+
+template<>
+int max<int>(int x, int y) // the generated function max<int>(int, int)
+{
+    return (x < y) ? y : x;
+}
+
+template<>
+double max<double>(double x, double y) // the generated function max<double>(double, double)
+{
+    return (x < y) ? y : x;
+}
+
+int main()
+{
+    std::cout << max<int>(1, 2) << '\n';    // instantiates and calls function max<int>(int, int)
+    std::cout << max<int>(4, 3) << '\n';    // calls already instantiated function max<int>(int, int)
+    std::cout << max<double>(1, 2) << '\n'; // instantiates and calls function max<double>(double, double)
+                                            // the int values provided will be converted to double
+
+    return 0;
+}
+*/
+// 
+// 
+// Template Argument Deduction
+//  
+// usually when we use a function call to a templates, the actual type we use is the same as the function
+// argumetns we use
+// 
+// in these cases we can dedutce teh actual type rather then explicitly stating it
+// that would look like going from this:
+// std::cout<< max<int>(1,2);
+// to this:
+// std::cout<< max<>(1,2);
+// OR
+// std::cout<< max(1,2);
+// 
+// this is called Template Argument Deduction
+// regaurdless of which form we use teh compiler notices teh missing actual type so it attempts to deduce
+// actual type from teh function aruments
+// 
+// -the case without the angled brackets, the compiler witll search both template overloads and non-template
+//       overloads of max() for a match, if multiple matches found, the non template version prefered
+// -the andgled bracket case only looks for template overloads 
+// 
+// Generally we use normal function syntax to call function templates because of these reasons:
+// The syntax is more concise.
+// It’s rare that we’ll have both a matching non - template function and a function template.
+// If we do have a matching non - template function and a matching function template, we will usually prefer the 
+// non - template function to be called.
+// 
+// 
 // 
 // 
 // 
